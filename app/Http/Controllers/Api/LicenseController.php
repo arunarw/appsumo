@@ -26,8 +26,13 @@ class LicenseController extends Controller
         $dashboardUrl = route('dashboard', ['license_key' => $license->license_key]);
 
         return response()->json([
+            'license_key' => $license->license_key,
             'license_redemption_url' => $dashboardUrl,
             'license_change_plan_url' => $dashboardUrl,
+            'status' => $license->status,
+            'tier' => $license->tier,
+            'created_at' => $license->created_at?->toIso8601ZuluString(),
+            'updated_at' => $license->updated_at?->toIso8601ZuluString(),
         ]);
     }
 }

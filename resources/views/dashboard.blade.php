@@ -3,6 +3,30 @@
 @section('content')
     <h1 class="text-2xl font-bold mb-6">Licenses</h1>
 
+    @if ($clientActive)
+        <div class="mb-4 bg-white border rounded px-4 py-3 text-sm">
+            <div class="flex items-center gap-3 mb-1">
+                <span class="font-semibold">Client status:</span>
+                <span class="px-2 py-1 rounded text-xs font-semibold bg-green-100 text-green-800">Active</span>
+            </div>
+            <div class="text-gray-600 text-xs">
+                <span class="font-semibold">URL:</span> <span class="font-mono">{{ $redirectUrl }}</span>
+            </div>
+        </div>
+    @else
+        <div class="mb-4 bg-red-50 border border-red-200 rounded px-4 py-3 text-sm">
+            <div class="flex items-center gap-3 mb-1">
+                <span class="font-semibold text-red-800">Client status:</span>
+                <span class="px-2 py-1 rounded text-xs font-semibold bg-red-100 text-red-800">Failed</span>
+                <a href="" class="text-blue-600 underline">Retry</a>
+            </div>
+            <div class="text-red-700 text-xs">
+                <div><span class="font-semibold">URL:</span> <span class="font-mono">{{ $redirectUrl ?: '(not set)' }}</span></div>
+                <div><span class="font-semibold">Error:</span> {{ $clientError }}</div>
+            </div>
+        </div>
+    @endif
+
     @if ($licenseKey)
         <div class="mb-4 flex items-center gap-3 bg-blue-50 border border-blue-200 rounded px-4 py-2 text-sm">
             <span>Filtered by license key <span class="font-mono">{{ $licenseKey }}</span></span>
