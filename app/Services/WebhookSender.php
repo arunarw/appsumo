@@ -18,11 +18,15 @@ class WebhookSender
             'downgrade' => 'inactive',
         ];
 
+        $createdAtMs = (int) (microtime(true) * 1000);
+        $eventTimestampMs = $createdAtMs + random_int(1, 5);
+
         $data = [
             'license_key' => $license->license_key,
             'event' => $event,
             'license_status' => $statusMap[$event],
-            'event_timestamp' => time(),
+            'created_at' => $createdAtMs,
+            'event_timestamp' => $eventTimestampMs,
             'tier' => $license->tier,
             'test' => false,
         ];

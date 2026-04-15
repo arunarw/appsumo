@@ -5,7 +5,7 @@
 
     <div class="mb-6">
         <label for="buyer_name" class="block text-sm font-semibold text-gray-700 mb-1">Your Name</label>
-        <input type="text" id="buyer_name" class="border border-gray-300 rounded px-3 py-2 w-full max-w-xs" placeholder="e.g. Aruna" value="{{ old('buyer_name') }}" required>
+        <input type="text" id="buyer_name" class="border border-gray-300 rounded px-3 py-2 w-full max-w-xs" placeholder="e.g. John" value="{{ old('buyer_name') }}" required>
         @error('buyer_name')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
         @enderror
