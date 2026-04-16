@@ -95,7 +95,11 @@
                                 </form>
                             @endif
 
-                            @if ($license->status === 'deactivated')
+                            @if ($license->status === 'deactivated' && $license->replaced_by)
+                                <span class="text-xs text-gray-500 italic">
+                                    {{ $license->replacement->tier > $license->tier ? 'Upgraded' : 'Downgraded' }} to Tier {{ $license->replacement->tier }} ({{ Str::limit($license->replacement->license_key, 12) }})
+                                </span>
+                            @elseif ($license->status === 'deactivated')
                                 <form action="{{ route('licenses.activate', $license) }}" method="POST" class="inline">
                                     @csrf
                                     <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Reactivate</button>

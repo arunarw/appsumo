@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $licenseKey = $request->query('license_key');
 
         $licenses = License::query()
+            ->with('replacement')
             ->when($licenseKey, fn ($q) => $q->where('license_key', $licenseKey))
             ->latest()
             ->get();

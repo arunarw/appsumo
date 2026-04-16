@@ -44,6 +44,8 @@ class LicenseController extends Controller
 
     public function activate(License $license): RedirectResponse
     {
+        abort_if($license->replaced_by, 403, 'Cannot reactivate a license that was replaced by a tier change.');
+
         $license->update(['status' => 'active']);
 
         $this->webhookSender->send($license, 'activate');
@@ -80,7 +82,7 @@ class LicenseController extends Controller
 
         $this->webhookSender->send($newLicense, $event, $license);
 
-        $license->update(['status' => 'deactivated']);
+        $license->update(['status' => 'deactivated', 'replaced_by' => $newLicense->id]);
         $this->webhookSender->send($license, 'deactivate');
 
         return redirect()->route('dashboard')->with('success', ucfirst($event) . " from Tier {$license->tier} to Tier {$newTier}.");
