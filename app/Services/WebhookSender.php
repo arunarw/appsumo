@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class WebhookSender
 {
-    public function send(License $license, string $event, ?License $prevLicense = null): void
+    public function send(License $license, string $event, ?License $prevLicense = null): bool
     {
         $statusMap = [
             'purchase' => 'inactive',
@@ -54,8 +54,12 @@ class WebhookSender
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
+
+            return $response->successful();
         } catch (\Exception $e) {
             Log::warning("Webhook [{$event}] failed: {$e->getMessage()}");
+
+            return false;
         }
     }
 }

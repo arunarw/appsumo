@@ -80,7 +80,9 @@ class LicenseController extends Controller
             'status' => 'inactive',
         ]);
 
-        $this->webhookSender->send($newLicense, $event, $license);
+        if ($this->webhookSender->send($newLicense, $event, $license)) {
+            $newLicense->update(['status' => 'active']);
+        }
 
         $license->update(['status' => 'deactivated', 'replaced_by' => $newLicense->id]);
         $this->webhookSender->send($license, 'deactivate');
